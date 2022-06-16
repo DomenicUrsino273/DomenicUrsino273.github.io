@@ -1,0 +1,315 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pricing example for Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/pricing/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="pricing.css" rel="stylesheet">
+  
+  
+    <script src="https://kit.fontawesome.com/97a684ba87.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Company name</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="#">Features</a>
+        <a class="p-2 text-dark" href="#">Enterprise</a>
+        <a class="p-2 text-dark" href="#">Support</a>
+        <a class="p-2 text-dark" href="#">Pricing</a>
+      </nav>
+      <a class="btn btn-outline-primary" href="#">Sign up</a>
+    </div>
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+      <h1 class="display-4">Pricing</h1>
+      <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It's built with default Bootstrap components and utilities with little customization.</p>
+    </div>
+
+    <div class="container">
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Credit Card</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title"> <small class="text-muted"></small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              <i class="fa-solid fa-credit-card" style="font-size:150px;"></i>
+            </ul>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch Credit Card Demo
+</button>          </div>
+
+<!-- Credit Card Demo Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Credit Card Demo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <style>iframe {border: 0;width: 700px; height: 800px;}</style>
+       <form id="paymentForm">
+        <div id="widget" 
+        title="Orchestration Demo" 
+        finish-text="Card Details Captured! Please Proceed To Process $100.00 Transaction Below!"></div>
+    </form>
+        <script src="https://widget.paydock.com/sdk/latest/widget.umd.js"></script>
+    <script>
+        
+        var widget = new paydock.HtmlWidget('#widget', 'c59984287315f4becd45612d619a03f1533023ef', '62a92704369f5356b62f1740');
+        widget.setEnv("sandbox_cba");
+        widget.onFinishInsert('input[name="payment_source"]', 'payment_source');
+        widget.load();
+        widget.on('finish', function (data) { 
+           console.log('Payment Data', data);
+        });
+    </script>
+        <input name="payment_source" id="payment_source" type="hidden">
+  </div>
+      <script> 
+      function sendPayload(){
+var data = JSON.stringify({
+  "amount": "100.00",
+  "currency": "AUD",
+  "token": document.getElementById("payment_source").value
+});
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+    $('#jsondata').val(this.responseText);
+  }
+});
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    if(this.status == 201)
+    alert("Your Payment Was Approved! Check Response :)");
+    else
+    alert("Oops! Your Payment Failed :(");
+  }
+});
+
+xhr.open("POST", "https://app-sandbox.paydock.com/v1/charges");
+xhr.setRequestHeader("x-user-secret-key", "3eb1654b7610dbebc25aa29ae15499e42d97dfe2");
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+xhr.send(data);
+} 
+      </script>
+      
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="sendPayload()">Send $100.00 Transaction</button>
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#transactionresponse">Check Transaction Response</button> 
+      </div>
+      </div>
+    </div>
+  </div>
+          
+
+<!-- Transaction Response Modal -->
+<div class="modal fade" id="transactionresponse" tabindex="-1" role="dialog" aria-labelledby="transactionresponse" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="transactionresponse">Transaction Response</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea name="jsondata" id="jsondata" style="height: 413px; width: 413px;" readonly=""></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>    
+        </div>
+      
+<!-- Payment Method Modal Splitter --><!-- Payment Method Modal Splitter --><!-- Payment Method Modal Splitter --> <!-- Payment Method Modal Splitter -->     
+  
+ <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 box-shadow">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">AfterPay</h4>
+          </div>
+          <div class="card-body">
+            <h1 class="card-title pricing-card-title"> <small class="text-muted"></small></h1>
+            <ul class="list-unstyled mt-3 mb-4">
+              
+              <img src="https://daepxvbfwwgd0.cloudfront.net/assets/logo_scroll-0c43312c5845a0dcd7a3373325da6402bc1d635d3415af28ed40d6c1b48e3d5c.png" alt="Italian Trulli">              
+            </ul>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#afterapayModal">
+  Launch AfterPay Demo
+</button></div>
+
+<!-- AfterPay Modal -->
+<div class="modal fade" id="afterapayModal" tabindex="-1" role="dialog" aria-labelledby="afterapayModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="afterapayModalLabel">AfterPay Demo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      
+    <p><button type="button" id="button"><img src="https://daepxvbfwwgd0.cloudfront.net/assets/logo_scroll-0c43312c5845a0dcd7a3373325da6402bc1d635d3415af28ed40d6c1b48e3d5c.png" align="center" style="margin-right: 7px"/></button></p>
+    <p><b>Your Payment Token:</b> <input type="text" id="afterpay-token" name="afterpay-token" /></p>   
+    
+      <style>iframe {border: 0;width: 700px; height: 800px;}</style>
+      <script src="https://widget.paydock.com/sdk/latest/widget.umd.js"></script>
+      <script>
+      var button = new paydock.AfterpayCheckoutButton(
+        "#button",
+        "c59984287315f4becd45612d619a03f1533023ef",
+        "62a92c78369f5356b62f1744"
+      );
+      button.setEnv("sandbox_cba");
+
+      button.onFinishInsert(
+        'input[name="afterpay-token"]',
+        "payment_source_token"
+      );
+      button.setMeta({
+        amount: "0.50",
+        currency: "AUD",
+        reference: "Test Transaction",
+        email: "domenicanthonyursino@gmail.com",
+        first_name: "Domenic",
+        last_name: "Ursino",
+        address_line: "123 Kent Street",
+        address_city: "Sydney",
+        address_state: "NSW",
+        address_postcode: "2000",
+        address_country: "Australia",
+        phone: "0429888123",
+      });
+
+      button.on("finish", function (data) {
+        console.log("on:finish", data);
+      });
+    </script>
+      </div>
+      
+      
+<!----------------- AfterPay Payload to API ----------------->
+      
+      <script> 
+      function sendAfterPayPayload(){
+var data = JSON.stringify({
+  "amount": "0.50",
+  "currency": "AUD",
+  "token": document.getElementById("afterpay-token").value
+});
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    console.log(this.responseText);
+    $('#AfterPayjsondata').val(this.responseText);
+  }
+});
+
+xhr.addEventListener("readystatechange", function() {
+  if(this.readyState === 4) {
+    if(this.status == 201)
+    alert("Your Payment Was Approved! Check Response :)");
+    else
+    alert("Oops! Your Payment Failed :(");
+  }
+});
+
+xhr.open("POST", "https://api-sandbox-cba.paydock.com/v1/charges");
+xhr.setRequestHeader("x-user-secret-key", "1a6679ea6bbbdc593423a3344bc3d16dbb0277d8");
+xhr.setRequestHeader("Content-Type", "application/json");
+xhr.setRequestHeader("Access-Control-Allow-Origin", "https://marred-intriguing-patch.glitch.me");   
+xhr.send(data);
+} 
+      </script>
+      
+<!----------------- End AfterPay Payload to API ----------------->      
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#AfterPaytransactionresponse">Check Transaction Response</button> 
+        <button type="button" class="btn btn-success" onclick="sendAfterPayPayload()">Send $0.50c AfterPay Transaction</button>
+
+      </div>
+      </div>
+    </div>
+  </div>
+          
+
+<!-----------------  AfterPay Transaction Response Modal  ----------------->
+
+  <div class="modal fade" id="AfterPaytransactionresponse" tabindex="-1" role="dialog" aria-labelledby="AfterPaytransactionresponse" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="AfterPaytransactionresponse">Transaction Response</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea name="AfterPayjsondata" id="AfterPayjsondata" style="height: 413px; width: 413px;" readonly=""></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-----------------  End AfterPay Transaction Response Modal  ----------------->
+</div>    
+        </div>     
+      </div>
+
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        
+      </footer>
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/holder.min.js"></script>
+    <script>
+      Holder.addTheme('thumb', {
+        bg: '#55595c',
+        fg: '#eceeef',
+        text: 'Thumbnail'
+      });
+    </script>
+  
+
+</body></html>
