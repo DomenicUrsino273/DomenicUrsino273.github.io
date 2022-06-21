@@ -101,7 +101,6 @@ xhr.addEventListener("readystatechange", function() {
 xhr.open("POST", "https://app-sandbox.paydock.com/v1/charges");
 xhr.setRequestHeader("x-user-secret-key", "3eb1654b7610dbebc25aa29ae15499e42d97dfe2");
 xhr.setRequestHeader("Content-Type", "application/json");
-xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
 xhr.send(data);
 } 
       </script>
